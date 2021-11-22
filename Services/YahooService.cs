@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using StocksApi.Models;
+using StocksApi.Configs;
 using StocksApi.Interfaces;
 using Microsoft.Extensions.Options;
 

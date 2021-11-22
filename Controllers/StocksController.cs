@@ -1,8 +1,8 @@
 ﻿using System;
 using StocksApi.Models;
+using StocksApi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StocksApi.Interfaces;
 
 namespace StocksApi.Controllers
 {
@@ -11,6 +11,7 @@ namespace StocksApi.Controllers
     public class StocksController : ControllerBase
     {
         private readonly IStocksManager _stocksManager;
+
         private readonly ILogger<StocksController> _logger;
 
         public StocksController(ILogger<StocksController> logger, IStocksManager stocksManager)
@@ -28,14 +29,14 @@ namespace StocksApi.Controllers
 
                 return stock != null ? Ok(stock) : NoContent();
             }
-            // catch (Exceptions.YahooException ex)
-            // {
-            //     // log exception
-            //     _logger.LogError(ex.Message, ex);
+            catch (Exceptions.YahooException ex)
+            {
+                // log exception
+                _logger.LogError(ex.Message, ex);
 
-            //     // return
-            //     return StatusCode(500, new {StatusCode=500, Title=ex.Message });
-            // }
+                // return
+                return StatusCode(500, new {StatusCode=500, Title=ex.Message });
+            }
             catch(Exception ex)
             {
                 // log exceptions
@@ -44,6 +45,7 @@ namespace StocksApi.Controllers
                 // return 
                 return StatusCode(500);
             }
+
         }
     }
 }
